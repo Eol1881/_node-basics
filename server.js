@@ -4,8 +4,6 @@ const { stdin, stdout } = process; // Деструктуризация объе�
 stdout.write(`Server started` + '\n');
 stdout.write(`Please enter your name: `);
 
-
-
 let userName = '';
 
 stdin.on('data', (data) => { // data - это тип эвента,  on - подобие eventListener
