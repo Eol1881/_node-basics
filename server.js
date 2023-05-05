@@ -1,38 +1,23 @@
 const { stdin, stdout } = require('process');
 const flags = process.argv.slice(2);
-let selectedMode;
+const acceptableFlags = ['-d', '-f'];
+let pathFlag;
 
-if (flags.indexOf('-m') !== -1) {
-  selectedMode = 'multiply';
-} else if (flags.indexOf('-s') !== -1) {
-  selectedMode = 'summarize';
-} else {
-  stdout.write('Попробуйте ещё раз запустить файл с флагом -s или -m');
-  process.exit();
-}
-
-stdout.write('Hello\nSelected mode: '+ selectedMode + '\n');
-
-function getInput() {
-  return new Promise((resolve, reject) => {
-    stdin.once('data', function(data) {
-      resolve(parseInt(data.toString().trim()));
-    });
-  });
-}
-
-async function calculate() {
-  let num1, num2, result;
-  stdout.write('Please enter the 1st number: ');
-  num1 = await getInput();
-  stdout.write('Please enter the 2nd number: ');
-  num2 = await getInput();
-  if (selectedMode === 'multiply') {
-    result = num1 * num2;
-  } else if (selectedMode ==='summarize') {
-    result = num1 + num2;
+const isFlagAcceptable = flags.some(flag => {
+  if (acceptableFlags.includes(flag)) {
+    pathFlag = flag;
+    return true
   }
-  stdout.write(`Result of ${selectedMode}: ${result}`);
-  process.exit(0);
+});
+// const isFlagAcceptable = function() {
+//   return flags.some(function(flag) {
+//     return acceptableFlags.includes(flag) ? true : false
+//   });
+// }();
+
+if (flags.length < 1 || !isFlagAcceptable) {
+  stdout.write('Попробуйте ещё раз запустить файл с флагом -d или -f');
 }
-calculate();
+
+if (pathFlag === '-d') console.log('Directory path:', __dirname);
+else console.log('File path:', __filename);
